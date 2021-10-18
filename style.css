@@ -1,0 +1,51 @@
+body
+{
+    background: repeat url("images/sweden_blur.png");
+    background-position: top;
+    color: white; /* Le texte de la page sera blanc */
+    text-align: center;
+}
+
+h1
+{
+    text-align:center;
+    font-size: 80px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-shadow: 2px 2px 2px black;
+}
+
+button {
+    background: no-repeat center/100% url("images/button_color_80.png");
+    border: none;
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 45%;
+    margin-left :25px;
+    transition-duration: 0.4s;
+}
+
+button.BasicButton {
+    width: 350px;
+    font-size: 40px;
+}
+
+button.TotalButton {
+    width: 550px;
+    font-size: 60px;
+    border-radius: 0%;
+}
+
+button.CategoryButton{
+    width: 250px;
+    font-size: 20px;
+}
+
+button:hover {
+    background: no-repeat center/100% url("images/button_color_50.png");
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: white;
+    cursor: pointer;
+}
