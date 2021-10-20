@@ -38,11 +38,40 @@ def create_sub_pages(new_data):
         page = page.replace('$1', name_to_fr[name])
         table = new_data[name].to_html(index=False)
         page = page.replace('$2', table)
-        
+
+        page = add_color_to_values(page)        
 
         page_file = open(f"page_{name}.html", "w")
         page_file.write(page)
         page_file.close()
+
+
+def add_color_to_values(page):
+    """This function add colors to values in subpages
+
+    Args:
+        page (str): HTML page in str format
+
+    Returns:
+        str: modified HTML page
+    """
+    new_page = ''
+
+    for line in page.splitlines():
+
+        if '€</td>' in line:
+
+            if '-' in line:
+                color = '#FA413B'  # Red
+
+            else:
+                color = '#34FF27'  # Greend
+
+            line = line.replace('<td>', f'<td style="color:{color}"">')
+
+        new_page += line + '\n'
+
+    return new_page
 
 
 def create_pages(new_data):
