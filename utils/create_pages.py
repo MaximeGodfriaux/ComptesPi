@@ -24,9 +24,22 @@ def create_sub_pages(new_data):
     Args:
         new_data (dictionnary): dictionnary containing all the new sheets
     """
+    name_to_fr = {
+        'compte': 'Compte',
+        'cash': 'Cash',
+        'materiel': 'Matériel',
+        'by_activity': 'Tri par Activité'
+    }
+
     for name in new_data:
         with open("source_html/page.html", "r", encoding='utf-8') as f:
             page = f.read()
+
+        page = page.replace('$1', name_to_fr[name])
+        table = new_data[name].to_html(index=False)
+        page = page.replace('$2', table)
+        
+
         page_file = open(f"page_{name}.html", "w")
         page_file.write(page)
         page_file.close()
