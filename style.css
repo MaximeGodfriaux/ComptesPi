@@ -1,6 +1,10 @@
 body
 {
-    background: repeat url("images/sweden_blur.png");
+    background: url("images/sweden.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     background-position: top;
     color: white; /* Le texte de la page sera blanc */
     text-align: center;
