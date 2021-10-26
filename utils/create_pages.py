@@ -41,7 +41,7 @@ def create_sub_pages(new_data):
 
         page = add_color_to_values(page)        
 
-        page_file = open(f"page_{name}.html", "w")
+        page_file = open(f"pages/page_{name}.html", "w")
         page_file.write(page)
         page_file.close()
 
