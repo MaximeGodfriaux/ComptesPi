@@ -31,6 +31,15 @@ def load_transfer(csv_path):
     return sheet
 
 
+def create_total_sheet(data):
+    """This function create the shet with all values
+
+    Args:
+        data (dictionnary): dictionnary containing all the sheets
+    """
+    data['total'] = pd.concat([data['cash'], data['compte'], data['materiel']])
+
+
 def load_data():
     """This function loads all the sheets
 
@@ -41,6 +50,8 @@ def load_data():
     data['cash'] =  load_sheet('csv_files/cash.csv')
     data['compte'] = load_sheet('csv_files/compte.csv')
     data['materiel'] = load_sheet('csv_files/materiel.csv')
+
+    create_total_sheet(data)
 
     data['transfer_cash'] = load_transfer('csv_files/transfer_cash.csv')
     data['transfer_materiel'] = load_transfer('csv_files/transfer_materiel.csv')

@@ -28,7 +28,8 @@ def create_sub_pages(new_data):
         'compte': 'Compte',
         'cash': 'Cash',
         'materiel': 'Matériel',
-        'by_activity': 'Tri par Activité'
+        'by_activity': 'Tri par Activité',
+        'total': 'Total'
     }
 
     for name in new_data:

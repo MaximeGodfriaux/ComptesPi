@@ -66,6 +66,19 @@ def add_materiel(data, new_data):
     new_data['materiel'] = materiel
 
 
+def add_total(data, new_data):
+    """This function add the sheet total
+
+    Args:
+        data (dictionnary): : dictionnary containing all the sheets
+        new_data (dictionnary): dictionnary containing all the new sheets
+    """
+    total = data['total']
+    total.fillna(value='', inplace=True)
+
+    new_data['total'] = total
+
+
 def sort_by_dates(new_data):
     """This function sort the elements by date
 
@@ -108,16 +121,21 @@ def check_correctness(new_data):
         new_data (dictionnary): dictionnary containing all the new sheets
     """
     check_sum = 0
+    check_total = 0
+    check_by_activity = 0
 
     for name_dataframe in new_data:
 
         if name_dataframe is 'by_activity':
-            check_sum -= new_data[name_dataframe].iloc[-1]['Montant']
+            check_by_activity += new_data[name_dataframe].iloc[-1]['Montant']
+        
+        elif name_dataframe is 'total':
+            check_total += new_data[name_dataframe].iloc[-1]['Montant']
 
         else:
             check_sum += new_data[name_dataframe].iloc[-1]['Montant']
 
-    if np.abs(check_sum) < 0.01:
+    if np.abs(check_sum - check_total) < 0.01 and np.abs(check_sum - check_by_activity) < 0.01:
         logger.success('Correctness of the code')
 
     else:
@@ -147,6 +165,7 @@ def apply_change_data(data):
     add_compte(data, new_data)
     add_cash(data, new_data)
     add_materiel(data, new_data)
+    add_total(data, new_data)
 
     sort_by_dates(new_data)
     add_sum_line(new_data)
