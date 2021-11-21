@@ -82,3 +82,8 @@ th, tr:last-child{
     font: 25px sans-serif;
     background-color: rgba(69, 81, 184, 0.8);
 }
+
+a {
+    color: inherit;
+    text-decoration: none;
+}

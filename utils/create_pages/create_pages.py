@@ -1,24 +1,6 @@
 
 
-def create_main_page(new_data):
-    """This function creates the main html page
-
-    Args:
-        new_data (dictionnary): dictionnary containing all the new sheets
-    """
-    with open("source_html/index.html", "r", encoding='utf-8') as f:
-        page = f.read()
-
-    for name in ['compte', 'cash', 'materiel', 'by_activity']:
-        total_value = new_data[name].iloc[-1]['Montant']
-        page = page.replace(f'${name}', total_value)
-
-    page_file = open("index.html", "w")
-    page_file.write(page)
-    page_file.close()
-
-
-def create_sub_pages(new_data):
+def create_pages(new_data):
     """This function creates the sub pages
 
     Args:
@@ -32,6 +14,8 @@ def create_sub_pages(new_data):
         'total': 'Total'
     }
 
+    dic_of_activity = get_activity(new_data['by_activity'])
+
     for name in new_data:
         with open("source_html/page.html", "r", encoding='utf-8') as f:
             page = f.read()
@@ -40,11 +24,32 @@ def create_sub_pages(new_data):
         table = new_data[name].to_html(index=False)
         page = page.replace('$2', table)
 
-        page = add_color_to_values(page)        
+        page = add_color_to_values(page)
+        page = add_ref_to_activity(page, dic_of_activity)
 
         page_file = open(f"page_{name}.html", "w")
         page_file.write(page)
         page_file.close()
+
+
+def get_activity(df):
+    """Returns all the activities name into a dic
+
+    Args:
+        df (pandas.DataFrame): dataframe by activity
+
+    Returns:
+        dict: dictionnary of all the activites
+    """
+    dic_of_activity = {}
+
+    for activity in df['Activité'].iteritems():
+        dic_of_activity[activity[1]] = activity[0]
+
+    if 'Total' in dic_of_activity:
+        del dic_of_activity['Total']
+
+    return dic_of_activity
 
 
 def add_color_to_values(page):
@@ -75,11 +80,28 @@ def add_color_to_values(page):
     return new_page
 
 
-def create_pages(new_data):
-    """This function create all html pages
+def add_ref_to_activity(page, dic_of_activity):
+    """This function add links to activities pages
 
     Args:
-        new_data (dictionnary): dictionnary containing all the new sheets
+        page (str): HTML page in str format
+
+    Returns:
+        str: modified HTML page
     """
-    create_main_page(new_data)
-    create_sub_pages(new_data)
+    new_page = ''
+
+    for line in page.splitlines():
+
+        text = line.replace('</td>', '<td>')
+        text = text.split('<td>')
+
+        if len(text) == 3 and text[1] in dic_of_activity:
+
+            key = text[1]
+            index = dic_of_activity[key]
+            line = line.replace(key, f'<a href="subpage_{index}.html">{key}</a>')
+
+        new_page += line + '\n'
+
+    return new_page
