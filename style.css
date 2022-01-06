@@ -73,6 +73,7 @@ body
     background-position: top;
     color: white; /* Le texte de la page sera blanc */
     text-align: center;
+    min-width: 650px;
 }
 
 h1
